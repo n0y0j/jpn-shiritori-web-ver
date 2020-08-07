@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Grid from '../components/grid';
+import Gamelogo from "./Gamelogo"
+import Game from "./Game"
 
 class Main extends Component {
   state = {
@@ -22,7 +23,8 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <Grid />
+        <Gamelogo />
+        <Game />
         {/* {this.state.posts.map(item => (
           <div key={item.id}>
             <h1>{item.word}</h1>
