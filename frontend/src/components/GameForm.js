@@ -1,60 +1,49 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import React, { Component, useState, useEffect } from 'react';
+import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+class GameForm extends Component {
+  state = {
+    word: ''
+  }
 
-function GameForm() {
+  handleChange = (e) => {
+    this.setState({
+      word: e.target.value
+    })
+  }
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }));
+  handleClick = () => {
+    console.log(this.state.word)
 
+    let word_data = new FormData();
+    word_data.append('word', this.state.word);
 
-  const classes = useStyles();
-  const state = {
-    word: '안녕'
-  };
+    const response = axios.post('/api/word/', word_data)
+    console.log(response)
 
-  return (
+  }
 
-    <div className={classes.root}>
-      <div className="firstword-counter">
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>첫단어, 카운터</Paper>
-        </Grid>
-      </div>
-      <div className="word-prev">
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>전에 썼던 단어</Paper>
-        </Grid>
-      </div>
-      <div className="word-mean">
-        <Grid item xs={9}>
-          <Paper className={classes.paper}>단어 뜻</Paper>
-        </Grid>
-      </div>
-      <div className="word-form">
-        <Grid item xs={9}>
-          <form>
-            <TextField id="standard-basic" label="Standard" />
-            <Button variant="contained" color="primary" href="#contained-buttons">
-              입력
-            </Button>
-          </form>
-        </Grid>
-      </div>
-    </div>
-  );
+  render() {
+    return (
+      <form>
+        <TextField
+          id="standard-basic"
+          label="input word"
+          value={this.state.word}
+          onChange={this.handleChange} />
+        <Button
+          variant="contained"
+          color="primary"
+          href="#contained-buttons"
+          onClick={this.handleClick}
+        >
+          입력
+    </Button>
+      </form>
+    )
+  }
 }
 
-export default GameForm
+export default GameForm;

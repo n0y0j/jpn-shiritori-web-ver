@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Gamelogo from "./Gamelogo"
-import Game from "./Game"
+import Game_ui from "./Game_ui"
 
 class Main extends Component {
   state = {
@@ -24,12 +24,12 @@ class Main extends Component {
     return (
       <div>
         <Gamelogo />
-        <Game />
-        {/* {this.state.posts.map(item => (
+        <Game_ui />
+        {this.state.posts.map(item => (
           <div key={item.id}>
             <h1>{item.word}</h1>
           </div>
-        ))} */}
+        ))}
       </div>
     );
   }
