@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -20,7 +20,7 @@ class GameForm extends Component {
     let word_data = new FormData();
     word_data.append('word', this.state.word);
 
-    const response = axios.post('/api/word/', word_data)
+    const response = axios.post('http://127.0.0.1:8000/api/word/', word_data)
     console.log(response)
 
   }

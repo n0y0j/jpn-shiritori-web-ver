@@ -13,6 +13,8 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-def word (request) :
-    print(request.POST)
-    return JsonResponse ({ 'response_text': 'hello world!'})
+def word(request) :
+    Query_word = request.POST
+    words = Query_word['word']
+    print(words)
+    return JsonResponse (request.POST)
