@@ -3,10 +3,13 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+
+
 class GameForm extends Component {
   state = {
     word: ''
   }
+
 
   handleChange = (e) => {
     this.setState({
@@ -36,7 +39,6 @@ class GameForm extends Component {
         <Button
           variant="contained"
           color="primary"
-          href="#contained-buttons"
           onClick={this.handleClick}
         >
           입력

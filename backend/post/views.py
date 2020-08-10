@@ -12,6 +12,11 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+def home(request):
+    Query_name = request.POST
+    words = Query_name['name']
+    print(words)
+    return JsonResponse (request.POST)
 
 def word(request) :
     Query_word = request.POST
