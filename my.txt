@@ -1,0 +1,10 @@
+1. frontend에서 name 값을 받고 uesr객체생성 ( 객체 필드 : 이름, 카운트 )
+2. 첫 끝말잇기 시작 글자 랜덤 생성 (frontend)
+3. word 입력 후 기본적인 끝말잇기 로직 검사 (frontend) : 끝말잇기 제시 글자가 입력한 단어의 첫 글자와 일치하는지의 여부
+      if true: 유효한 단어인지 단어를 backend로 보냄
+         false: 끝, frontend의 user객체를 backend의 db에 저장
+4. backend에서 단어가 유효한지 검사함
+      if true: wordmean, valid의 값을 다시 frontend로 보냄
+         false: valid=false 상태로 frontend로 보냄 -> 끝
+5. backend에서 받은 데이터 (wordmean) 값을 ui에 띄우고, count+1, 제시글자 word의 끝 글자로 변환, word_list에 word추가
+6. 반복

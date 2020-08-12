@@ -11,6 +11,8 @@ class ListPost(generics.ListCreateAPIView):
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    
+
 
 def home(request):
     Query_name = request.POST
