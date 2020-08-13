@@ -17,9 +17,10 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view(["POST"])
 def word(request) :
+    mean = []
+    a = ''
     Query_word = request.data
     words = Query_word['word']
-    print(words)
     
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
@@ -39,14 +40,23 @@ def word(request) :
 
     for key in hotKeys:
         check_text = key.get_text()
-        print(check_text)
 
-        if (words == check_text):
-            mean_Keys = soup.select(
-                "div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
+    if (words == check_text):
+        mean_Keys = soup.select(
+            "div#searchPage_entry.section.section_keyword div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
 
-            for mKey in mean_Keys:
-                print(mKey.get_text())
+        for mKey in mean_Keys:
+            a += mKey.get_text()
+        
+
+
+    mean = a.replace('\t', '').split('\n\n')
+
+
+    for i in range(len(mean)):
+        mean[i]=mean[i].strip('\n ')
+
+    print(mean)
 
 
     return JsonResponse (request.POST)
