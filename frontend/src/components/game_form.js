@@ -1,44 +1,52 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-class GameForm extends Component {
-  state = {
-    word: "",
-  };
+function GameForm() {
+  const [word, setWordState] = useState("");
+  // const [user, setUser] = useState({
+  //   name: "",
+  //   count: 0,
+  // });
 
-  handleChange = (e) => {
-    this.setState({
+  // const [game, setGame] = useState({
+  //   firstword: "",
+  //   mean: "",
+  //   useWord: [],
+  // });
+
+  const handleChange = (e) => {
+    setWordState({
       word: e.target.value,
     });
   };
 
-  handleClick = () => {
-    console.log(this.state.word);
+  const handleClick = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/word/",
+      word,
+      headers
+    );
 
-    let word_data = new FormData();
-    word_data.append("word", this.state.word);
-
-    const response = axios.post("http://127.0.0.1:8000/api/word/", word_data);
     console.log(response);
   };
 
-  render() {
-    return (
-      <form>
-        <TextField
-          id="standard-basic"
-          label="input word"
-          value={this.state.word}
-          onChange={this.handleChange}
-        />
-        <Button variant="contained" color="primary" onClick={this.handleClick}>
-          입력
-        </Button>
-      </form>
-    );
-  }
+  return (
+    <form>
+      <TextField
+        id="standard-basic"
+        label="input word"
+        onChange={handleChange}
+      />
+      <Button variant="contained" color="primary" onClick={handleClick}>
+        입력
+      </Button>
+    </form>
+  );
 }
 
 export default GameForm;

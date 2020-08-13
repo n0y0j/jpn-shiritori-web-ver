@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -8,9 +8,16 @@ import Gamelogo from "./game_logo";
 function Game_ui(props) {
   const start_word = props.location.state.first_word;
   const start_name = props.location.state.name;
-  const [info, setInfoState] = useState({
-    user: [{ name: start_name, count: 0 }],
-    game: [{ firstword: start_word, mean: "", useWord: [] }],
+
+  const [user, setUser] = useState({
+    name: start_name,
+    count: 0,
+  });
+
+  const [game, setGame] = useState({
+    firstword: start_word,
+    mean: "",
+    useWord: [],
   });
 
   const useStyles = makeStyles((theme) => ({
@@ -31,8 +38,8 @@ function Game_ui(props) {
 
   console.log(start_name);
   console.log(start_word);
-  console.log(info.user.name);
-  console.log(info.game.firstword);
+  console.log(user.name);
+  console.log(game.firstword);
 
   return (
     <div>
@@ -41,7 +48,7 @@ function Game_ui(props) {
         <div className={classes.root}>
           <div className="firstword-counter">
             <Grid item xs={6}>
-              <Paper className={classes.paper}>{info.game.firstword}</Paper>
+              <Paper className={classes.paper}>{game.firstword}</Paper>
             </Grid>
           </div>
           <div className="word-prev">
