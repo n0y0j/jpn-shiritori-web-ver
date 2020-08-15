@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 from rest_framework import generics
 from .models import Post
@@ -7,6 +8,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 from rest_framework.decorators import api_view
+
 class ListPost(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -18,7 +20,8 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
 @api_view(["POST"])
 def word(request) :
     mean = []
-    a = ''
+    temp_mean = ''
+    valid = False
     Query_word = request.data
     words = Query_word['word']
     
@@ -42,21 +45,32 @@ def word(request) :
         check_text = key.get_text()
 
     if (words == check_text):
+        valid = True
         mean_Keys = soup.select(
             "div#searchPage_entry.section.section_keyword div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
 
         for mKey in mean_Keys:
-            a += mKey.get_text()
+            temp_mean += mKey.get_text()
         
 
 
-    mean = a.replace('\t', '').split('\n\n')
-
+    mean = temp_mean.replace('\t', '').split('\n\n')
+    info_mean = ''
 
     for i in range(len(mean)):
         mean[i]=mean[i].strip('\n ')
+        info_mean += mean[i]
+        info_mean += '\n'
 
     print(mean)
+    print(info_mean)
+
+    test = {
+        'word_mean': info_mean,
+        'valid': valid
+    }
+
+    data = requests.post('http://127.0.0.1:8000/api/', data=test)
 
 
     return JsonResponse (request.POST)
