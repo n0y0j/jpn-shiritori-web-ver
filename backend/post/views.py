@@ -17,7 +17,7 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-@api_view(["POST"])
+@api_view(['POST'])
 def word(request) :
     mean = []
     temp_mean = ''
@@ -51,26 +51,18 @@ def word(request) :
 
         for mKey in mean_Keys:
             temp_mean += mKey.get_text()
-        
-
 
     mean = temp_mean.replace('\t', '').split('\n\n')
-    info_mean = ''
+    info_mean = []
 
     for i in range(len(mean)):
         mean[i]=mean[i].strip('\n ')
-        info_mean += mean[i]
-        info_mean += '\n'
 
     print(mean)
-    print(info_mean)
 
     test = {
-        'word_mean': info_mean,
+        'word_mean': mean,
         'valid': valid
     }
 
-    data = requests.post('http://127.0.0.1:8000/api/', data=test)
-
-
-    return JsonResponse (request.POST)
+    return JsonResponse(test)

@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Gamelogo from "../pages/game_logo";
+import axios from "axios";
 
-function GameForm() {
+function GameForm(props) {
+  const start_word = props.location.state.first_word;
+  const name = props.location.state.name;
+
   const [word, setWordState] = useState("");
-  const [posts, setPostsState] = useState({
-    posts: [],
-  });
-  // const [user, setUser] = useState({
-  //   name: "",
-  //   count: 0,
-  // });
-
-  // const [game, setGame] = useState({
-  //   firstword: "",
-  //   mean: "",
-  //   useWord: [],
-  // });
+  const [count, setCount] = useState(0);
+  const [useWord, setUseWord] = useState([]);
+  const [mean, setMean] = useState([]);
+  const [firstword, setFirstWord] = useState(start_word);
 
   const handleChange = (e) => {
     setWordState({
@@ -26,49 +24,86 @@ function GameForm() {
   };
 
   const handleClick = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const response = await axios.post(
-      "http://127.0.0.1:8000/api/word/",
-      word,
-      headers
-    );
+    var check = word.word.charAt(0);
+    if (firstword === check) {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/word/",
+        word,
+        headers
+      );
 
-    console.log(response);
-
-    const res = await fetch("http://127.0.0.1:8000/api/");
-    const posts = await res.json();
-    setPostsState({
-      posts,
-    });
-
-    console.log(posts);
-
-    posts.map((item) => console.log(item.word_mean));
+      if (response.data.valid === true) {
+        if (useWord.length < 6) {
+          setUseWord((prevArray) => [...prevArray, word.word]);
+        }
+        setFirstWord(word.word.charAt(word.word.length - 1));
+        setMean((prevArray) => [response.data.word_mean]);
+        setCount(count + 1);
+      }
+    }
   };
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: "center",
+      color: theme.palette.text.secondary,
+      width: theme.spacing(16),
+      height: theme.spacing(16),
+      margin: theme.spacing(3),
+    },
+  }));
+
+  const classes = useStyles();
 
   return (
     <div>
-      <form>
-        <TextField
-          id="standard-basic"
-          label="input word"
-          onChange={handleChange}
-        />
-        <Button variant="contained" color="primary" onClick={handleClick}>
-          입력
-        </Button>
-      </form>
+      <Gamelogo />
+      <Grid container direction="column" justify="center" alignItems="center">
+        <div className={classes.root}>
+          <div>
+            <Grid item xs={6}>
+              <Paper className={classes.paper}>{firstword}</Paper>
+            </Grid>
+          </div>
+          <div>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>{useWord}</Paper>
+            </Grid>
+          </div>
+          <div>
+            <Grid item xs={9}>
+              <Paper className={classes.paper}>{mean}</Paper>
+            </Grid>
+          </div>
+          <div>
+            <Grid item xs={9}>
+              <form>
+                <TextField
+                  id="standard-basic"
+                  label="input word"
+                  onChange={handleChange}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleClick}
+                >
+                  입력
+                </Button>
+              </form>
+            </Grid>
+          </div>
+        </div>
+      </Grid>
     </div>
   );
 }
 
 export default GameForm;
-
-// {this.state.posts.map((item) => (
-//   <div key={item.id}>
-//     <h1>{item.word_mean}</h1>
-//   </div>
-// ))}
-// </div>

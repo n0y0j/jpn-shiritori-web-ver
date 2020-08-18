@@ -1,8 +1,8 @@
 from django.db import models
 
 class Post(models.Model):
-  word_mean = models.TextField(null=True)
-  valid = models.BooleanField(null=False)
+  name = models.CharField(null=False, max_length=200)
+  score = models.IntegerField(null=False)
 
   def __str__(self):
         return self.word
