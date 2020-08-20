@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.ListPost.as_view()),
     path('<int:pk>/', views.DetailPost.as_view()),
     path('word/', views.word, name="word"),
+    path('rank/', views.rank, name="rank"),
 ]

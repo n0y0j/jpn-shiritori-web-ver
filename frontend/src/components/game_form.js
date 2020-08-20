@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -10,12 +11,18 @@ import axios from "axios";
 function GameForm(props) {
   const start_word = props.location.state.first_word;
   const name = props.location.state.name;
+  const history = useHistory();
 
+  const [userName, setUserName] = useState(name);
   const [word, setWordState] = useState("");
   const [count, setCount] = useState(0);
   const [useWord, setUseWord] = useState([]);
   const [mean, setMean] = useState([]);
   const [firstword, setFirstWord] = useState(start_word);
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
   const handleChange = (e) => {
     setWordState({
@@ -25,10 +32,8 @@ function GameForm(props) {
 
   const handleClick = async () => {
     var check = word.word.charAt(0);
+    var play = false;
     if (firstword === check) {
-      const headers = {
-        "Content-Type": "application/json",
-      };
       const response = await axios.post(
         "http://127.0.0.1:8000/api/word/",
         word,
@@ -36,6 +41,7 @@ function GameForm(props) {
       );
 
       if (response.data.valid === true) {
+        play = true;
         if (useWord.length < 6) {
           setUseWord((prevArray) => [...prevArray, word.word]);
         }
@@ -43,6 +49,19 @@ function GameForm(props) {
         setMean((prevArray) => [response.data.word_mean]);
         setCount(count + 1);
       }
+    }
+
+    if (play === false) {
+      const response_rank = await axios.post(
+        "http://127.0.0.1:8000/api/rank/",
+        {
+          userName,
+          count,
+        },
+        headers
+      );
+
+      history.push("/");
     }
   };
 

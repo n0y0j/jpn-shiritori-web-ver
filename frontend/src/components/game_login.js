@@ -72,6 +72,10 @@ function Gamelogin() {
     history.push("/game", startState);
   };
 
+  const moveRanking = () => {
+    history.push("/rank");
+  };
+
   return (
     <div>
       <Gamelogo />
@@ -86,6 +90,9 @@ function Gamelogin() {
           />
           <Button variant="contained" color="primary" onClick={handleClick}>
             입력
+          </Button>
+          <Button variant="contained" color="primary" onClick={moveRanking}>
+            랭킹
           </Button>
         </form>
       </Grid>

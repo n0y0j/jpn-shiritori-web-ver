@@ -31,7 +31,6 @@ def word(request) :
     driver = webdriver.Chrome(
         '/usr/bin/chromedriver', chrome_options=options)
     driver.get('https://ja.dict.naver.com/#/search?query=' + words)
-    print(words)
 
     time.sleep(3)
 
@@ -58,11 +57,20 @@ def word(request) :
     for i in range(len(mean)):
         mean[i]=mean[i].strip('\n ')
 
-    print(mean)
-
     test = {
         'word_mean': mean,
         'valid': valid
     }
 
     return JsonResponse(test)
+
+@api_view(["POST"])
+def rank(request):
+    query = request.data
+
+    user = {
+        'name': query['userName'],
+        'score': query['count']
+    }
+    requests.post("http://127.0.0.1:8000/api/", data=user)
+    return JsonResponse(user)
