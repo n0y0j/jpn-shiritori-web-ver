@@ -52,15 +52,17 @@ def word(request) :
             temp_mean += mKey.get_text()
 
     mean = temp_mean.replace('\t', '').split('\n\n')
-    info_mean = []
 
     for i in range(len(mean)):
         mean[i]=mean[i].strip('\n ')
+        
 
     test = {
         'word_mean': mean,
         'valid': valid
     }
+
+    print(test['word_mean'])
 
     return JsonResponse(test)
 

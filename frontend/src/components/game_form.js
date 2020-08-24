@@ -42,8 +42,14 @@ function GameForm(props) {
 
       if (response.data.valid === true) {
         play = true;
-        if (useWord.length < 6) {
+        if (useWord.length < 5) {
           setUseWord((prevArray) => [...prevArray, word.word]);
+        } else {
+          var temp_word_list = useWord;
+          temp_word_list.shift();
+          temp_word_list.push(word.word);
+
+          setUseWord(temp_word_list);
         }
         setFirstWord(word.word.charAt(word.word.length - 1));
         setMean((prevArray) => [response.data.word_mean]);
@@ -66,16 +72,33 @@ function GameForm(props) {
   };
 
   const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
+    first_paper: {
+      fontSize: "80px",
+      fontWeight: "bold",
       textAlign: "center",
-      color: theme.palette.text.secondary,
-      width: theme.spacing(16),
+      width: theme.spacing(20),
       height: theme.spacing(16),
-      margin: theme.spacing(3),
+      margin: theme.spacing(5),
+    },
+    useWord_paper: {
+      fontSize: "40px",
+      textAlign: "center",
+      width: theme.spacing(25),
+      height: theme.spacing(16),
+      margin: theme.spacing(2),
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    mean_paper: {
+      fontSize: "20px",
+      textAlign: "center",
+      width: theme.spacing(110),
+      height: theme.spacing(16),
+      margin: theme.spacing(5),
+    },
+    text_form: {
+      margin: theme.spacing(5),
     },
   }));
 
@@ -84,26 +107,51 @@ function GameForm(props) {
   return (
     <div>
       <Gamelogo />
-      <Grid container direction="column" justify="center" alignItems="center">
-        <div className={classes.root}>
+      <Grid
+        container
+        direction="column"
+        justify="flex-start"
+        alignItems="center"
+      >
+        <div>
           <div>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>{firstword}</Paper>
+            <Grid item xs align="center">
+              <Paper className={classes.first_paper}>{firstword}</Paper>
             </Grid>
           </div>
           <div>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>{useWord}</Paper>
+            <Grid
+              item
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Paper className={classes.useWord_paper}>
+                {useWord.length > 0 ? useWord[0] : ""}
+              </Paper>
+              <Paper className={classes.useWord_paper}>
+                {useWord.length > 1 ? useWord[1] : ""}
+              </Paper>
+              <Paper className={classes.useWord_paper}>
+                {useWord.length > 2 ? useWord[2] : ""}
+              </Paper>
+              <Paper className={classes.useWord_paper}>
+                {useWord.length > 3 ? useWord[3] : ""}
+              </Paper>
+              <Paper className={classes.useWord_paper}>
+                {useWord.length > 4 ? useWord[4] : ""}
+              </Paper>
             </Grid>
           </div>
           <div>
-            <Grid item xs={9}>
-              <Paper className={classes.paper}>{mean}</Paper>
+            <Grid item xs align="center">
+              <Paper className={classes.mean_paper}>{mean}</Paper>
             </Grid>
           </div>
           <div>
-            <Grid item xs={9}>
-              <form>
+            <Grid item xs align="center">
+              <form className={classes.text_form}>
                 <TextField
                   id="standard-basic"
                   label="input word"
