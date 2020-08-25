@@ -96,6 +96,9 @@ function GameForm(props) {
       width: theme.spacing(110),
       height: theme.spacing(16),
       margin: theme.spacing(5),
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
     },
     text_form: {
       margin: theme.spacing(5),
