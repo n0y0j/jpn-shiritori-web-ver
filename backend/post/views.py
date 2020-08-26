@@ -74,5 +74,15 @@ def rank(request):
         'name': query['userName'],
         'score': query['count']
     }
-    requests.post("http://127.0.0.1:8000/api/", data=user)
+
+    queryset = Post.objects.all()
+    qs1 = queryset.filter(name=query['userName'])
+    post_instance = Post.objects.get(id=qs1[0].id)
+    if (qs1):
+        if ( user['score'] > post_instance.score ):
+            post_instance.score = user['score']
+            post_instance.save()
+    else:
+        requests.post("http://127.0.0.1:8000/api/", data=user)
+
     return JsonResponse(user)
