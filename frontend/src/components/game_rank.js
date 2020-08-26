@@ -8,20 +8,23 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import {
-  withStyles,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 function GameRank() {
   const [rank, setRank] = useState([]);
-  const [dump, setDunp] = useState(0);
+  const [dump, setDump] = useState(0);
+
+  function scoreSort(a, b) {
+    if (a["score"] == b["score"]) {
+      return 0;
+    }
+    return a["score"] < b["score"] ? 1 : -1;
+  }
 
   useEffect(() => {
     async function getData() {
       const rank_data = await axios.get("http://127.0.0.1:8000/api/");
-      setRank(rank_data.data);
+      setRank(rank_data.data.sort(scoreSort));
     }
     getData();
   }, [dump]);
@@ -32,7 +35,7 @@ function GameRank() {
       color: theme.palette.common.white,
     },
     body: {
-      fontSize: 14,
+      fontSize: 16,
     },
   }))(TableCell);
 
@@ -46,7 +49,8 @@ function GameRank() {
 
   const useStyles = makeStyles({
     table: {
-      minWidth: 700,
+      width: "300px",
+      height: "100px",
     },
   });
 
@@ -56,7 +60,7 @@ function GameRank() {
     <div>
       <Gamelogo />
       <div>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} align="center">
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
