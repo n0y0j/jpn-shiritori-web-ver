@@ -33,6 +33,7 @@ function GameForm(props) {
   const handleClick = async () => {
     var check = word.word.charAt(0);
     var play = false;
+
     if (firstword === check) {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/word/",
@@ -66,7 +67,7 @@ function GameForm(props) {
         },
         headers
       );
-
+      alert("Try again");
       history.push("/");
     }
   };
@@ -106,7 +107,6 @@ function GameForm(props) {
   }));
 
   const classes = useStyles();
-
   return (
     <div>
       <Gamelogo />

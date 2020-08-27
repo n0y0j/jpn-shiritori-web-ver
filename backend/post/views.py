@@ -19,11 +19,16 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view(['POST'])
 def word(request) :
-    mean = []
     temp_mean = ''
+    mean = []
     valid = False
     Query_word = request.data
     words = Query_word['word']
+
+    game_res = {
+        'word_mean': mean,
+        'valid': valid
+    }
     
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
@@ -32,39 +37,38 @@ def word(request) :
         '/usr/bin/chromedriver', chrome_options=options)
     driver.get('https://ja.dict.naver.com/#/search?query=' + words)
 
-    time.sleep(3)
+    driver.implicitly_wait(3)
 
     html = driver.page_source
     soup = BeautifulSoup(html, "lxml")
 
     hotKeys = soup.select(
-        "div.component_keyword.has-saving-function div.row div.origin a.link strong.highlight")
+        "div.component_keyword.has-saving-function > div.row > div.origin > a.link > strong.highlight")
 
-    for key in hotKeys:
-        check_text = key.get_text()
+    if (hotKeys != []):
+        for key in hotKeys:
+            check_text = key.get_text()
 
-    if (words == check_text):
-        valid = True
-        mean_Keys = soup.select(
-            "div#searchPage_entry.section.section_keyword div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
+        if (words == check_text):
+            valid = True
+            mean_Keys = soup.select(
+                "div#searchPage_entry.section.section_keyword div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
 
-        for mKey in mean_Keys:
-            temp_mean += mKey.get_text()
+            for mKey in mean_Keys:
+                temp_mean += mKey.get_text()
 
-    mean = temp_mean.replace('\t', '').split('\n\n')
+        mean = temp_mean.replace('\t', '').split('\n\n')
 
-    for i in range(len(mean)):
-        mean[i]=mean[i].strip('\n ')
-        
+        for i in range(len(mean)):
+            mean[i]=mean[i].strip('\n ')
+            
 
-    test = {
-        'word_mean': mean,
-        'valid': valid
-    }
+        game_res = {
+            'word_mean': mean,
+            'valid': valid
+        }
 
-    print(test['word_mean'])
-
-    return JsonResponse(test)
+    return JsonResponse(game_res)
 
 @api_view(["POST"])
 def rank(request):
