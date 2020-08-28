@@ -8,7 +8,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 function GameRank() {
   const [rank, setRank] = useState([]);
@@ -47,42 +49,58 @@ function GameRank() {
     },
   }))(TableRow);
 
-  const useStyles = makeStyles({
+  const history = useHistory();
+  const handleClick = () => {
+    history.push("/");
+  };
+
+  const useStyles = makeStyles((theme) => ({
     table: {
       width: "300px",
       height: "100px",
     },
-  });
+    container: {
+      margin: theme.spacing(3),
+    },
+  }));
 
   const classes = useStyles();
 
   return (
     <div>
       <Gamelogo />
-      <div>
-        <TableContainer component={Paper} align="center">
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>name</StyledTableCell>
-                <StyledTableCell align="right">count</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rank.map((rank) => (
-                <StyledTableRow key={rank["name"]}>
-                  <StyledTableCell component="th" scope="row">
-                    {rank["name"]}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {rank["score"]}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      <TableContainer
+        className={classes.container}
+        component={Paper}
+        align="center"
+      >
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>name</StyledTableCell>
+              <StyledTableCell align="right">count</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rank.map((rank) => (
+              <StyledTableRow key={rank["name"]}>
+                <StyledTableCell component="th" scope="row">
+                  {rank["name"]}
+                </StyledTableCell>
+                <StyledTableCell align="right">{rank["score"]}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Button
+          className={classes.container}
+          variant="contained"
+          color="primary"
+          onClick={handleClick}
+        >
+          돌아가기
+        </Button>
+      </TableContainer>
     </div>
   );
 }

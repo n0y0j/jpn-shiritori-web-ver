@@ -37,14 +37,14 @@ def word(request) :
         '/usr/bin/chromedriver', chrome_options=options)
     driver.get('https://ja.dict.naver.com/#/search?query=' + words)
 
-    driver.implicitly_wait(3)
+    time.sleep(3)
 
     html = driver.page_source
     soup = BeautifulSoup(html, "lxml")
 
     hotKeys = soup.select(
-        "div.component_keyword.has-saving-function > div.row > div.origin > a.link > strong.highlight")
-
+        "div.component_keyword.has-saving-function div.row div.origin a.link strong.highlight")
+    print(hotKeys)
     if (hotKeys != []):
         for key in hotKeys:
             check_text = key.get_text()
@@ -52,7 +52,7 @@ def word(request) :
         if (words == check_text):
             valid = True
             mean_Keys = soup.select(
-                "div#searchPage_entry.section.section_keyword div.component_keyword.has-saving-function div.row ul.mean_list li.mean_item p.mean")
+                "div#searchPage_entry.section.section_keyword > div.component_keyword.has-saving-function > div.row > ul.mean_list > li.mean_item p.mean")
 
             for mKey in mean_Keys:
                 temp_mean += mKey.get_text()
@@ -81,8 +81,9 @@ def rank(request):
 
     queryset = Post.objects.all()
     qs1 = queryset.filter(name=query['userName'])
-    post_instance = Post.objects.get(id=qs1[0].id)
+
     if (qs1):
+        post_instance = Post.objects.get(id=qs1[0].id)
         if ( user['score'] > post_instance.score ):
             post_instance.score = user['score']
             post_instance.save()
