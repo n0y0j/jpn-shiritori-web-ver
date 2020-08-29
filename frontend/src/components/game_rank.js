@@ -17,7 +17,7 @@ function GameRank() {
   const [dump, setDump] = useState(0);
 
   function scoreSort(a, b) {
-    if (a["score"] == b["score"]) {
+    if (a["score"] === b["score"]) {
       return 0;
     }
     return a["score"] < b["score"] ? 1 : -1;
@@ -60,6 +60,9 @@ function GameRank() {
       height: "100px",
     },
     container: {
+      marginTop: theme.spacing(15),
+    },
+    comeback_button: {
       margin: theme.spacing(3),
     },
   }));
@@ -93,9 +96,9 @@ function GameRank() {
           </TableBody>
         </Table>
         <Button
-          className={classes.container}
-          variant="contained"
-          color="primary"
+          className={classes.comeback_button}
+          variant="outlined"
+          color="secondary"
           onClick={handleClick}
         >
           돌아가기

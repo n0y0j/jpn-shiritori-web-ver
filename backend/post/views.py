@@ -4,6 +4,7 @@ from rest_framework import generics
 from .models import Post
 from .serializers import PostSerializer
 from django.http import JsonResponse
+from django.http import HttpResponse
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
@@ -43,8 +44,8 @@ def word(request) :
     soup = BeautifulSoup(html, "lxml")
 
     hotKeys = soup.select(
-        "div.component_keyword.has-saving-function div.row div.origin a.link strong.highlight")
-    print(hotKeys)
+        "div.component_keyword.has-saving-function > div.row > div.origin > a.link > strong.highlight")
+
     if (hotKeys != []):
         for key in hotKeys:
             check_text = key.get_text()
@@ -62,7 +63,6 @@ def word(request) :
         for i in range(len(mean)):
             mean[i]=mean[i].strip('\n ')
             
-
         game_res = {
             'word_mean': mean,
             'valid': valid
@@ -88,6 +88,7 @@ def rank(request):
             post_instance.score = user['score']
             post_instance.save()
     else:
-        requests.post("http://127.0.0.1:8000/api/", data=user)
+        p1 = Post(name=user['name'], score=user['score'])
+        p1.save()
 
-    return JsonResponse(user)
+    return HttpResponse(user)

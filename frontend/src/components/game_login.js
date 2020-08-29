@@ -79,7 +79,17 @@ function Gamelogin() {
 
   const useStyles = makeStyles((theme) => ({
     div: {
-      margin: theme.spacing(3),
+      marginTop: theme.spacing(14),
+      marginBottom: theme.spacing(7),
+    },
+    form: {
+      margin: theme.spacing(1),
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+    ranking_button: {
+      margin: theme.spacing(5),
     },
   }));
 
@@ -89,20 +99,34 @@ function Gamelogin() {
     <div>
       <Gamelogo />
       <Grid container direction="column" justify="center" alignItems="center">
-        <h1>Welcome to the shiritori game</h1>
-        <p>Please enter your nickname</p>
-        <form>
+        <div className={classes.div} align="center">
+          <h1>Welcome to the shiritori game</h1>
+        </div>
+        <form className={classes.form}>
           <TextField
-            id="standard-basic"
+            id="outlined-basic"
+            label="Outlined"
+            variant="outlined"
             label="enter your nickname.."
             onChange={handleChange}
           />
-          <Button variant="contained" color="primary" onClick={handleClick}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleClick}
+            style={{ marginLeft: "20px" }}
+          >
             입력
           </Button>
         </form>
-        <div className={classes.div}>
-          <Button variant="contained" color="primary" onClick={moveRanking}>
+        <div className={classes.ranking_button}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            style={{ width: "320px", height: "60px" }}
+            onClick={moveRanking}
+          >
             랭킹
           </Button>
         </div>

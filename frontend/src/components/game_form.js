@@ -31,7 +31,10 @@ function GameForm(props) {
   };
 
   const handleClick = async () => {
-    var check = word.word.charAt(0);
+    if (word.word) {
+      var check = word.word.charAt(0);
+    }
+
     var play = false;
 
     if (firstword === check) {
@@ -67,6 +70,7 @@ function GameForm(props) {
         },
         headers
       );
+      console.log(response_rank);
       alert("Try again");
       history.push("/");
     }
@@ -103,6 +107,9 @@ function GameForm(props) {
     },
     text_form: {
       margin: theme.spacing(5),
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
     },
   }));
 
@@ -115,6 +122,7 @@ function GameForm(props) {
         direction="column"
         justify="flex-start"
         alignItems="center"
+        style={{ marginTop: "40px" }}
       >
         <div>
           <div>
@@ -156,13 +164,16 @@ function GameForm(props) {
             <Grid item xs align="center">
               <form className={classes.text_form}>
                 <TextField
-                  id="standard-basic"
+                  id="outlined-basic"
+                  label="Outlined"
+                  variant="outlined"
                   label="input word"
                   onChange={handleChange}
                 />
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
+                  style={{ marginLeft: "20px" }}
                   onClick={handleClick}
                 >
                   입력
