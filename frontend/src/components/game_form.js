@@ -122,7 +122,7 @@ function GameForm(props) {
         direction="column"
         justify="flex-start"
         alignItems="center"
-        style={{ marginTop: "40px" }}
+        style={{ marginTop: "20px" }}
       >
         <div>
           <div>

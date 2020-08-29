@@ -79,7 +79,7 @@ function Gamelogin() {
 
   const useStyles = makeStyles((theme) => ({
     div: {
-      marginTop: theme.spacing(14),
+      marginTop: theme.spacing(10),
       marginBottom: theme.spacing(7),
     },
     form: {

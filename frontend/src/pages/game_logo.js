@@ -1,9 +1,10 @@
 import React from "react";
+import shiritori from "../components/shiritori.png";
 
 function Gamelogo() {
   return (
     <div className="header">
-      <h1>Shritori Game</h1>
+      <img src={shiritori} />
     </div>
   );
 }

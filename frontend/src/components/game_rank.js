@@ -60,10 +60,10 @@ function GameRank() {
       height: "100px",
     },
     container: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(10),
     },
     comeback_button: {
-      margin: theme.spacing(3),
+      margin: theme.spacing(7),
     },
   }));
 
@@ -72,11 +72,7 @@ function GameRank() {
   return (
     <div>
       <Gamelogo />
-      <TableContainer
-        className={classes.container}
-        component={Paper}
-        align="center"
-      >
+      <TableContainer className={classes.container} align="center">
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
