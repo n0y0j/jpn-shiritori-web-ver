@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import Gamelogo from "../pages/game_logo";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Gamelogo from "../pages/game_logo";
 import axios from "axios";
 
 function GameForm(props) {
@@ -17,6 +17,7 @@ function GameForm(props) {
   const [word, setWordState] = useState("");
   const [count, setCount] = useState(0);
   const [useWord, setUseWord] = useState([]);
+  const [redundancyCheck, setRedundancyCheck] = useState(new Map());
   const [mean, setMean] = useState([]);
   const [firstword, setFirstWord] = useState(start_word);
 
@@ -38,26 +39,33 @@ function GameForm(props) {
     var play = false;
 
     if (firstword === check) {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/word/",
-        word,
-        headers
-      );
+      if (redundancyCheck.get(word.word) !== false) {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/word/",
+          word,
+          headers
+        );
 
-      if (response.data.valid === true) {
-        play = true;
-        if (useWord.length < 5) {
-          setUseWord((prevArray) => [...prevArray, word.word]);
-        } else {
-          var temp_word_list = useWord;
-          temp_word_list.shift();
-          temp_word_list.push(word.word);
+        if (response.data.valid === true) {
+          play = true;
+          if (useWord.length < 5) {
+            setUseWord((prevArray) => [...prevArray, word.word]);
+          } else {
+            var temp_word_list = useWord;
+            temp_word_list.shift();
+            temp_word_list.push(word.word);
 
-          setUseWord(temp_word_list);
+            setUseWord(temp_word_list);
+          }
+          setFirstWord(word.word.charAt(word.word.length - 1));
+          setMean((prevArray) => [response.data.word_mean]);
+          setCount(count + 1);
+          setWordState({ word: "" });
+          setRedundancyCheck(redundancyCheck.set(word.word, false));
         }
-        setFirstWord(word.word.charAt(word.word.length - 1));
-        setMean((prevArray) => [response.data.word_mean]);
-        setCount(count + 1);
+      } else {
+        play = true;
+        alert("This word has already been used");
       }
     }
 
