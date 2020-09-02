@@ -1,0 +1,1 @@
+# jpn-shiritori-web-ver
