@@ -14,6 +14,11 @@
 
 - Django: <https://github.com/n0y0j/django-tutorial>
 
+
+Selenium을 활용한 네이버 일본어 사전 크롤링 연습
+
+- Pytyon: <https://github.com/n0y0j/jpn-shiritori>
+
 ### 2. 기능 구현
 
 ---
@@ -39,6 +44,8 @@
 ![스크린샷, 2020-09-02 22-44-04](https://user-images.githubusercontent.com/28584258/91997236-d5f7d680-ed74-11ea-86c8-ff2256ecad98.png)
 
 
+##### 세부 모습
+
 
 ![스크린샷, 2020-09-02 22-46-37](https://user-images.githubusercontent.com/28584258/91997384-00499400-ed75-11ea-82ea-27993f1f891b.png)
 
@@ -46,16 +53,19 @@
   - 게임 시작 시 히라가나 한 개가 무작위로 선택됩니다.
   - 게임 중 자신이 입력한 단어의 마지막 글자가 선택됩니다.
   
+***
   
 ![스크린샷, 2020-09-02 22-49-24](https://user-images.githubusercontent.com/28584258/91997436-0ccdec80-ed75-11ea-8c60-70eb32709d8a.png)
 
 - 게임 중 입력했었던 가장 최근의 단어 5개를 표시합니다.
 
+***
 
 ![스크린샷, 2020-09-02 22-51-14](https://user-images.githubusercontent.com/28584258/91997457-12c3cd80-ed75-11ea-81ed-bdf6a30c7c68.png)
 
 - 입력한 단어의 한국어 뜻을 보여줍니다.
 
+***
 
 ![스크린샷, 2020-09-02 22-52-36](https://user-images.githubusercontent.com/28584258/91997478-18211800-ed75-11ea-944a-9f195cb79f45.png)
 
@@ -63,6 +73,7 @@
   - **잘못된 단어(= 네이버 일본어 사전에 등재되어 있지 않은 단어)**를 입력 시 사용자의 정보가 DB에 저장되고 경고창과 함께 게임이 종료됩니다. (다시 HomePage로 돌아감)
   - **전에 사용했던 단어**를 입력 시 경고창이 뜨고, 새 단어를 다시 입력합니다.
   
+***
 
 #### 게임 진행
 
